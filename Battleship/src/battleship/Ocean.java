@@ -50,19 +50,19 @@ public class Ocean {
 	
 	int getShotsFired() {
 		
-		return 0;
+		return this.shotsFired;
 	}
 	
 	
 	int getHitCount() {
 		
-		return 0;
+		return this.hitCount;
 	}
 	
 	
 	int getShipsSunk() {
 		
-		return 0;
+		return this.shipsSunk;
 	}
 	
 	boolean isGameOver() {

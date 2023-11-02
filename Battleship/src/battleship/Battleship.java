@@ -2,7 +2,7 @@ package battleship;
 
 public class Battleship extends Ship {
 
-	static final int length = 5;
+	static final int length = 4;
 	
 	static final String type = "battleship";
 	

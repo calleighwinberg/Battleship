@@ -14,6 +14,8 @@ public abstract class Ship {
 	
 	private boolean horizontal;
 	
+	private boolean[] hit;
+	
 	
 	
 	
@@ -24,13 +26,15 @@ public abstract class Ship {
 		 */
 		public Ship(int length) {
 			
+			hit = new boolean[length];
+			
 		}
 		
 		
 	//getters and setters
 	
 	/**
-	 * @return the bowRow
+	 * @return the bowRow corresponding to the position of the bow
 	 */
 	public int getBowRow() {
 		return bowRow;
@@ -48,7 +52,7 @@ public abstract class Ship {
 
 
 	/**
-	 * @return the bowColomn
+	 * @return the bowColomn location
 	 */
 	public int getBowColomn() {
 		return bowColomn;
@@ -100,10 +104,6 @@ public abstract class Ship {
 	}
 
 
-
-	private boolean[] hit;
-	
-
 	
 	
 	/**
@@ -143,6 +143,17 @@ public abstract class Ship {
 	 */
 	void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		
+		this.setBowRow(row);
+		this.setBowColomn(column);
+		this.setHorizontal(horizontal);
+		
+		if(this.getShipType().equals("battleship")) {
+			/* This means, if you place a horizontal battleship at location (9, 8) in the
+				ocean, the bow is at location (9, 8) and the rest of the ship occupies
+				locations: (9, 7), (9, 6), (9, 5).
+				▪ If you place a vertical cruiser at location (4, 0) in the ocean, the bow is at
+				location (4, 0) and the rest of the ship occupies locations: (3, 0), (2, 0).*/
+		}
 	}
 	
 	
@@ -183,7 +194,7 @@ public abstract class Ship {
 	@Override
 	public String toString() {
 		
-		return "string";
+		return "s";
 		
 	}
 

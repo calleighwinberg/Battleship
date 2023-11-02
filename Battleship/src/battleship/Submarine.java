@@ -1,13 +1,13 @@
 package battleship;
 
-public class Destroyer extends Ship {
+public class Submarine extends Ship {
 
-	static final int length = 2;
+	static final int length = 1;
 	
-	static final String type = "destroyer";
+	static final String type = "submarine";
 	
 	
-	public Destroyer() {
+	public Submarine() {
 		super(length);
 		// TODO Auto-generated constructor stub
 	}
