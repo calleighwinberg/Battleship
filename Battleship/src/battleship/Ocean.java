@@ -18,6 +18,9 @@ public class Ocean {
 	 */
 	public Ocean() {
 		
+		int count = 1;
+		
+		
 	}
 	
 	
@@ -46,6 +49,15 @@ public class Ocean {
 		
 		return true; 
 	}
+	
+	
+	boolean shootAt(int row, int column) {
+		
+		return true;
+	}
+	
+	
+	//getter methods 
 	
 	
 	int getShotsFired() {
@@ -103,18 +115,13 @@ public class Ocean {
 	}
 	
 	
+	/**
+	 * USED FOR DEBUGGING PURPOSES ONLY.
+	 */
 	void printWithShips() {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 }
