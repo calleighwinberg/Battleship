@@ -9,7 +9,6 @@ public class Destroyer extends Ship {
 	
 	public Destroyer() {
 		super(length);
-		// TODO Auto-generated constructor stub
 	}
 
 

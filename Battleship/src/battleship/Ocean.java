@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.Random;
+
 public class Ocean {
 	
 	private Ship[][]ships = new Ship[10][10];
@@ -18,9 +20,37 @@ public class Ocean {
 	 */
 	public Ocean() {
 		
-		int count = 1;
+		//initialize the game variables 
+		this.hitCount = 0;
+		this.shotsFired = 0;
+		this.shipsSunk = 0;
 		
+		//iterate through every space in the ships array
+		for(int i = 0; i <this.ships.length; i ++) {
+			
+			for(int j=0; j<this.ships[i].length; j++) {
+				
+				//put a new emptySea object in the specified location
+				ships[i][j] = this.newEmptySeaObj();
+				
+				//set the bowRow and bowColumn to match the location
+				ships[i][j].setBowRow(i);
+				ships[i][j].setBowColomn(j);
+				
+			}
+		}	
+	}
+	
+	
+	
+	/**
+	 *  **private helper method** creates a new empty sea object so the ships array can be filled with emptySea objects 
+	 * @return
+	 */
+	private EmptySea newEmptySeaObj() {
+		EmptySea newEmptySea = new EmptySea();
 		
+		return newEmptySea;
 	}
 	
 	
@@ -37,6 +67,61 @@ public class Ocean {
 	 */
 	void placeAllShipsRandomly() {
 		
+		Battleship battleship1 = new Battleship();
+		
+		Cruiser crusier1 = new Cruiser();
+		Cruiser crusier2 = new Cruiser();
+		
+		Destroyer destroyer1 = new Destroyer();
+		Destroyer destroyer2 = new Destroyer();
+		Destroyer destroyer3 = new Destroyer();
+		
+		Submarine submarine1 = new Submarine();
+		Submarine submarine2 = new Submarine();
+		Submarine submarine3 = new Submarine();
+		Submarine submarine4 = new Submarine();
+		
+		//ArrayList<Ship> ships = new ArrayList<Ship>();
+		
+		Ship[] myShips = {battleship1};
+		
+		Random random = new Random();
+		
+		//iterate through the array of ships
+		for(int i=0; i < myShips.length; i++) {
+			
+			Ship ship = myShips[i];
+			
+			System.out.println("What is length in ocean:" + ship.getLength());
+			
+			while(true) { 
+				
+				int randomRow = random.nextInt(10);
+				
+				int randomCol = random.nextInt(10);
+				
+				boolean horizontal = random.nextBoolean();
+				
+				if (ship.okToPlaceShipAt(randomRow, randomCol, horizontal, this)) {	
+					
+					ship.placeShipAt(randomRow, randomCol, horizontal, this);
+								
+					System.out.println("Success!" + randomRow + randomCol + horizontal);
+					
+					break;
+				}
+				
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	/**
@@ -47,6 +132,9 @@ public class Ocean {
 	 */
 	boolean isOccupied(int row, int column) {
 		
+		if(this.ships[row][column] instanceof EmptySea) {
+			return false;
+		}
 		return true; 
 	}
 	
@@ -112,6 +200,28 @@ public class Ocean {
 	 */
 	void print() {
 		
+		System.out.println("  0 1 2 3 4 5 6 7 8 9");
+		
+		for(int i = 0; i <this.ships.length; i ++) {
+			
+			System.out.print(i + " ");
+			
+			for(int j=0; j < this.ships[i].length; j++) {
+
+				if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
+					System.out.print(this.ships[i][j]);	
+					System.out.println("test");
+				}
+				else {
+					
+					//if the location hasn't been shot at, print a period indicating you haven't shot at this spot yet
+					System.out.print(". ");
+					
+				}
+			}
+			System.out.println();		
+		}
+		
 	}
 	
 	
@@ -119,6 +229,28 @@ public class Ocean {
 	 * USED FOR DEBUGGING PURPOSES ONLY.
 	 */
 	void printWithShips() {
+		
+		System.out.println("  0 1 2 3 4 5 6 7 8 9");
+			
+		for(int i = 0; i <this.ships.length; i ++) {
+			
+			System.out.print(i + " ");
+			
+			for(int j=0; j < this.ships[i].length; j++) {
+	
+				if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
+					//System.out.println("x");
+					System.out.print(this.ships[i][j]);	
+				}
+				else {
+					
+					//if the location hasn't been shot at, print a period indicating you haven't shot at this spot yet
+					System.out.print(". ");
+					
+				}
+			}
+			System.out.println();		
+	}
 		
 	}
 	

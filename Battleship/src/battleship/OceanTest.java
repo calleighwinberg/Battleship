@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/*class OceanTest {
+class OceanTest {
 
 	Ocean ocean;
 	
@@ -45,9 +45,9 @@ import org.junit.jupiter.api.Test;
 		
 		assertEquals(9, ships[9][0].getBowRow());
 		assertEquals(0, ships[9][0].getBowColumn());
-	}
+	}}
 	
-	@Test
+	/*@Test
 	void testPlaceAllShipsRandomly() {
 		
 		//tests that the correct number of each ship type is placed in the ocean

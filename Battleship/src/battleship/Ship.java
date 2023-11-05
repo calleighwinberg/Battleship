@@ -8,7 +8,7 @@ public abstract class Ship {
 	//instance variables 
 	private int bowRow;
 	
-	private int bowColomn;
+	private int bowColumn;
 	
 	private int length;
 	
@@ -20,15 +20,17 @@ public abstract class Ship {
 	
 	
 	//constructor 
-		/**
-		 * This constructor sets the length property of the particular ship and initializes the hit array based on that length
-		 * @param length
-		 */
-		public Ship(int length) {
-			
-			hit = new boolean[length];
-			
-		}
+	/**
+	 * This constructor sets the length property of the particular ship and initializes the hit array based on that length
+	 * @param length
+	 */
+	public Ship(int length) {
+		
+		this.length = length;
+		
+		hit = new boolean[length];
+		
+	}
 		
 		
 	//getters and setters
@@ -54,8 +56,8 @@ public abstract class Ship {
 	/**
 	 * @return the bowColomn location
 	 */
-	public int getBowColomn() {
-		return bowColomn;
+	public int getBowColumn() {
+		return bowColumn;
 	}
 
 
@@ -64,7 +66,7 @@ public abstract class Ship {
 	 * @param bowColomn the bowColomn to set
 	 */
 	public void setBowColomn(int bowColomn) {
-		this.bowColomn = bowColomn;
+		this.bowColumn = bowColomn;
 	}
 
 
@@ -126,9 +128,64 @@ public abstract class Ship {
 	 * @return
 	 */
 	boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+
+		//boolean okToPlace = false;
 		
-		return true;
-	}
+		System.out.println(row + " " + column);
+
+
+		//if horizonal, and length == 5, then we have to place higher than column (index) 3  .  3,6. we need to make sure index 2-7 are empty
+		// and we need to make sure index row 2, column 2-7 are empty and index row 4, column 2-7 are empty 
+
+		if(horizontal) {
+
+			if(column+1 < this.length) {
+
+				return false;	
+			}
+			else {
+
+				for(int col1 = (column - this.length - 1); col1 <= this.length+1; col1++) {
+					
+					System.out.println(col1);
+					//if(ocean.getShipArray()[row-1][col1])
+
+					if(ocean.isOccupied(row-1, col1) || ocean.isOccupied(row, col1) || ocean.isOccupied(row+1, col1)) {
+
+						return false;
+					}	
+				}
+				return true;
+			}
+		}
+
+		else {
+
+			if(row+1 < this.length) {
+
+				return false;
+
+			} 
+
+			else {
+
+				for(int row1 = (row - this.length - 1); row1 <= this.length+1; row1++) {
+
+					//if(ocean.getShipArray()[row-1][col1])
+
+					if(ocean.isOccupied(row1, column-1) || ocean.isOccupied(row1, column) || ocean.isOccupied(row1, column+1)) {
+
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+
+		}
+	
+
+		
 	
 	
 	/**
@@ -147,14 +204,41 @@ public abstract class Ship {
 		this.setBowColomn(column);
 		this.setHorizontal(horizontal);
 		
-		if(this.getShipType().equals("battleship")) {
+		System.out.print(ocean.getShipArray()[row][column] = this);
+		
+		//Ship[][] ships = ocean.getShipArray();
+		
+		if(horizontal) {
+			
+			System.out.println("What is length in ship:" + this.getLength());
+			
+			for(int i = (column - this.getLength()+1); i < this.getLength()+1; i++) {
+				System.out.println("do we even enter" + i);
+				ocean.getShipArray()[row][i] = this;
+			}
+		}
+			
+			
+		
+		
+		//ocean.getShipArray()[row][column] = this;
+		
+		
+		
+		
+		//if(this.getShipType().equals("battleship")) {
 			/* This means, if you place a horizontal battleship at location (9, 8) in the
 				ocean, the bow is at location (9, 8) and the rest of the ship occupies
 				locations: (9, 7), (9, 6), (9, 5).
 				▪ If you place a vertical cruiser at location (4, 0) in the ocean, the bow is at
 				location (4, 0) and the rest of the ship occupies locations: (3, 0), (2, 0).*/
+			
+			
 		}
-	}
+		
+		
+		
+	
 	
 	
 	/**
