@@ -131,15 +131,70 @@ public abstract class Ship {
 
 		//boolean okToPlace = false;
 		
-		System.out.println(row + " " + column);
+		System.out.println("these are passed into okToPlaceShip" +row + " " + column + " " + horizontal);
+		
+		int endColumn;
+		int endRow;
 
 
 		//if horizonal, and length == 5, then we have to place higher than column (index) 3  .  3,6. we need to make sure index 2-7 are empty
 		// and we need to make sure index row 2, column 2-7 are empty and index row 4, column 2-7 are empty 
 
 		if(horizontal) {
+			
+			endRow = row;
+			endColumn = column - this.length +1;
+			
+			//check that the back of the boat would still be within the constraints of ocean
+			if(endColumn >= 0) {
+				
+				//check if any space we want to place the ship already has a ship placed
+				for(int i = endColumn; i < column+1; i++) {
+					if(ocean.isOccupied(endRow, i)) {
+						return false;
+					}
+				}
+				
+				// TODO: check the ship's surrounding space for another ship
+				return true;
+			}
+			
+			else {
+				return false;
+			}
+		}
+		
+		else {
+			
+			endRow = row - this.length + 1;
+			endColumn = column;
+			
+			//check that the back of the boat would still be within the constraints of ocean
+			if(endRow >= 0) {
+				
+				//check if any space we want to place the ship already has a ship placed
+				for(int j = endRow; j < row+1; j++) {
+					if(ocean.isOccupied(j, endColumn)) {
+						return false;
+					}
+				}
+				
+				// TODO: check the ship's surrounding space for another ship
+				return true;
 
-			if(column+1 < this.length) {
+			}
+			
+			else {
+				return false;
+			}	
+		}
+	}
+			
+			
+			
+			
+
+			/*if(column+1 < this.length) {
 
 				return false;	
 			}
@@ -157,7 +212,7 @@ public abstract class Ship {
 				}
 				return true;
 			}
-		}
+
 
 		else {
 
@@ -180,9 +235,9 @@ public abstract class Ship {
 				}
 				return true;
 			}
-		}
+		}*/
 
-		}
+		
 	
 
 		
@@ -204,7 +259,8 @@ public abstract class Ship {
 		this.setBowColomn(column);
 		this.setHorizontal(horizontal);
 		
-		System.out.print(ocean.getShipArray()[row][column] = this);
+		//System.out.print(ocean.getShipArray()[row][column] = this);
+		System.out.print(ocean.getShipArray()[row][column]);
 		
 		//Ship[][] ships = ocean.getShipArray();
 		
@@ -212,7 +268,7 @@ public abstract class Ship {
 			
 			System.out.println("What is length in ship:" + this.getLength());
 			
-			for(int i = (column - this.getLength()+1); i < this.getLength()+1; i++) {
+			for(int i = (column - this.getLength()+1); i < column+1; i++) {
 				System.out.println("do we even enter" + i);
 				ocean.getShipArray()[row][i] = this;
 			}
@@ -278,7 +334,7 @@ public abstract class Ship {
 	@Override
 	public String toString() {
 		
-		return "s";
+		return "s ";
 		
 	}
 
