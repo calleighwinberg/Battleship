@@ -273,6 +273,13 @@ public abstract class Ship {
 				ocean.getShipArray()[row][i] = this;
 			}
 		}
+		
+		else {
+			for(int j = (row-this.getLength()+1); j < row + 1; j++) {
+				System.out.println("do we even enter" + j);
+				ocean.getShipArray()[j][column] = this;
+			}
+		}
 			
 			
 		
