@@ -65,8 +65,8 @@ public abstract class Ship {
 	/**
 	 * @param bowColomn the bowColomn to set
 	 */
-	public void setBowColomn(int bowColomn) {
-		this.bowColumn = bowColomn;
+	public void setBowColumn(int bowColumn) {
+		this.bowColumn = bowColumn;
 	}
 
 
@@ -128,73 +128,75 @@ public abstract class Ship {
 	 * @return
 	 */
 	boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+		// Check if the ship can be placed on the board given orientation and row/column
+		if (horizontal) {
+		    if (column - length + 1 < 0) return false;
+		}
+		
+		if (!horizontal) {
+		    if (row - length + 1 < 0) return false;
+		}
+		
+		
+		
+		
+		for (int i = 0; i < length; i++) {
+	        int currentRow = horizontal ? row : row - i;
+	        int currentColumn = horizontal ? column - i : column;
 
+	        // Check if the current position is within bounds
+	        if (currentRow < 0 || currentRow >= ocean.getShipArray().length ||
+	            currentColumn < 0 || currentColumn >= ocean.getShipArray()[0].length) {
+	            return false; // Out of bounds
+	        }
+
+	        // Check if the current position is already occupied
+	        if (!(ocean.getShipArray()[currentRow][currentColumn] instanceof EmptySea)) {
+	            return false; // Position occupied
+	        }
+
+	        // Check adjacent positions (above, below, left, right, and diagonals)
+	        for (int dr = -1; dr <= 1; dr++) {
+	            for (int dc = -1; dc <= 1; dc++) {
+	                int adjacentRow = currentRow + dr;
+	                int adjacentColumn = currentColumn + dc;
+
+	                // Check if adjacent position is within bounds
+	                if (adjacentRow >= 0 && adjacentRow < ocean.getShipArray().length &&
+	                    adjacentColumn >= 0 && adjacentColumn < ocean.getShipArray()[0].length) {
+	                    
+	                    // Check if the adjacent position is occupied by a ship
+	                    if (!(ocean.getShipArray()[adjacentRow][adjacentColumn] instanceof EmptySea)) {
+	                        return false; // Adjacent position occupied
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return true; // All checks passed, it's ok to place the ship
+		
+		/*
+		
 		//boolean okToPlace = false;
 		
-		System.out.println("these are passed into okToPlaceShip" +row + " " + column + " " + horizontal);
+		//System.out.println(row + " " + column);
+		/*
+		if (horizontal) {
+			if (column + length > ocean.getShipArray().length) return false;
+		} else {
+			if (row + length > ocean.getShipArray().length) return false;
+		}
+		*/
 		
-		int endColumn;
-		int endRow;
-
+		
+		/*
 
 		//if horizonal, and length == 5, then we have to place higher than column (index) 3  .  3,6. we need to make sure index 2-7 are empty
 		// and we need to make sure index row 2, column 2-7 are empty and index row 4, column 2-7 are empty 
 
 		if(horizontal) {
-			
-			endRow = row;
-			endColumn = column - this.length +1;
-			
-			//check that the back of the boat would still be within the constraints of ocean
-			if(endColumn >= 0) {
-				
-				//check if any space we want to place the ship already has a ship placed
-				for(int i = endColumn; i < column+1; i++) {
-					if(ocean.isOccupied(endRow, i)) {
-						return false;
-					}
-				}
-				
-				// TODO: check the ship's surrounding space for another ship
-				return true;
-			}
-			
-			else {
-				return false;
-			}
-		}
-		
-		else {
-			
-			endRow = row - this.length + 1;
-			endColumn = column;
-			
-			//check that the back of the boat would still be within the constraints of ocean
-			if(endRow >= 0) {
-				
-				//check if any space we want to place the ship already has a ship placed
-				for(int j = endRow; j < row+1; j++) {
-					if(ocean.isOccupied(j, endColumn)) {
-						return false;
-					}
-				}
-				
-				// TODO: check the ship's surrounding space for another ship
-				return true;
 
-			}
-			
-			else {
-				return false;
-			}	
-		}
-	}
-			
-			
-			
-			
-
-			/*if(column+1 < this.length) {
+			if(column+1 < this.length) {
 
 				return false;	
 			}
@@ -212,7 +214,7 @@ public abstract class Ship {
 				}
 				return true;
 			}
-
+		}
 
 		else {
 
@@ -235,13 +237,10 @@ public abstract class Ship {
 				}
 				return true;
 			}
-		}*/
+		}
+		*/
 
-		
-	
-
-		
-	
+	}
 	
 	/**
 	 * “Puts” the ship in the ocean. This involves giving values to the bowRow,bowColumn, and horizontal instance variables in 
@@ -256,32 +255,36 @@ public abstract class Ship {
 	void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		
 		this.setBowRow(row);
-		this.setBowColomn(column);
+		this.setBowColumn(column);
 		this.setHorizontal(horizontal);
 		
 		//System.out.print(ocean.getShipArray()[row][column] = this);
-		System.out.print(ocean.getShipArray()[row][column]);
 		
+		
+		Ship[][] ships = ocean.getShipArray();
+
+        // Place a reference to the ship in the ships array at each location the ship occupies.
+        for (int i = 0; i < this.length; i++) {
+            if (horizontal) {
+                ships[row][column - i] = this;
+            } else {
+                ships[row - i][column] = this;
+            }
+        }
 		//Ship[][] ships = ocean.getShipArray();
 		
+		/*
 		if(horizontal) {
 			
 			System.out.println("What is length in ship:" + this.getLength());
 			
-			for(int i = (column - this.getLength()+1); i < column+1; i++) {
+			for(int i = (column - this.getLength()+1); i < this.getLength()+1; i++) {
 				System.out.println("do we even enter" + i);
 				ocean.getShipArray()[row][i] = this;
 			}
 		}
-		
-		else {
-			for(int j = (row-this.getLength()+1); j < row + 1; j++) {
-				System.out.println("do we even enter" + j);
-				ocean.getShipArray()[j][column] = this;
-			}
-		}
 			
-			
+		*/
 		
 		
 		//ocean.getShipArray()[row][column] = this;
@@ -313,7 +316,23 @@ public abstract class Ship {
 	 */
 	boolean shootAt(int row, int column) {
 		
-		return true;
+		if (!isSunk()) {
+	        if (this.horizontal) {
+	            if (row == this.bowRow && column >= this.bowColumn && column < this.bowColumn + this.length) {
+	                int hitIndex = column - this.bowColumn; // Index for horizontal
+	                this.hit[hitIndex] = true; 
+	                return true;
+	            }
+	        } else {
+	            if (column == this.bowColumn && row <= this.bowRow && row > this.bowRow - this.length) {
+	                int hitIndex = this.bowRow - row; // Index for vertical
+	                this.hit[hitIndex] = true; 
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+		
 	}
 	
 	
@@ -324,8 +343,13 @@ public abstract class Ship {
 	 */
 	boolean isSunk() {
 		
-		
+		for (boolean partHit : hit) {
+			if(!partHit) {
+				return false;
+			}
+		}
 		return true;
+		
 		
 	}
 	
@@ -341,8 +365,16 @@ public abstract class Ship {
 	@Override
 	public String toString() {
 		
-		return "s ";
-		
+		if (this.isSunk()) {
+			return "s";
+		} else {
+			for (boolean partHit : hit) {
+				if (partHit) {
+					return "x";
+				}
+			}
+		}
+		return "x";
 	}
 
 }

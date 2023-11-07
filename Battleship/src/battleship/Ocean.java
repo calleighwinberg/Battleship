@@ -35,7 +35,7 @@ public class Ocean {
 				
 				//set the bowRow and bowColumn to match the location
 				ships[i][j].setBowRow(i);
-				ships[i][j].setBowColomn(j);
+				ships[i][j].setBowColumn(j);
 				
 			}
 		}	
@@ -67,10 +67,12 @@ public class Ocean {
 	 */
 	void placeAllShipsRandomly() {
 		
+		Random random = new Random();
+		
 		Battleship battleship1 = new Battleship();
 		
-		Cruiser crusier1 = new Cruiser();
-		Cruiser crusier2 = new Cruiser();
+		Cruiser cruiser1 = new Cruiser();
+		Cruiser cruiser2 = new Cruiser();
 		
 		Destroyer destroyer1 = new Destroyer();
 		Destroyer destroyer2 = new Destroyer();
@@ -81,6 +83,27 @@ public class Ocean {
 		Submarine submarine3 = new Submarine();
 		Submarine submarine4 = new Submarine();
 		
+		Ship[] shipsToPlace = {battleship1, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, 
+				submarine1, submarine2, submarine3, submarine4};
+		
+		  for (Ship ship : shipsToPlace) {
+		        boolean placed = false;
+		        
+		        while (!placed) {
+		            int row = random.nextInt(10);
+		            int column = random.nextInt(10);
+		            boolean horizontal = random.nextBoolean();
+		            
+		            
+		            if (ship.okToPlaceShipAt(row, column, horizontal, this)) {
+		                ship.placeShipAt(row, column, horizontal, this);
+		                placed = true;
+		            }
+		        }
+		        
+		    }
+		
+		/*
 		//ArrayList<Ship> ships = new ArrayList<Ship>();
 		
 		Ship[] myShips = {battleship1};
@@ -115,12 +138,7 @@ public class Ocean {
 			
 		}
 		
-		
-		
-		
-		
-		
-		
+		*/		
 		
 	}
 	
@@ -132,16 +150,31 @@ public class Ocean {
 	 */
 	boolean isOccupied(int row, int column) {
 		
+		return !(ships[row][column] instanceof EmptySea);
+		
+		/*
 		if(this.ships[row][column] instanceof EmptySea) {
 			return false;
 		}
 		return true; 
+		*/
 	}
 	
 	
 	boolean shootAt(int row, int column) {
 		
-		return true;
+		shotsFired++;
+		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
+			if (ships[row][column].shootAt(row, column)) {
+				hitCount++;
+				if (ships[row][column].isSunk()) {
+					shipsSunk++;
+				}
+				
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -162,12 +195,23 @@ public class Ocean {
 	
 	int getShipsSunk() {
 		
-		return this.shipsSunk;
+		int sunkCount = 0;
+	    for (Ship[] row : ships) {
+	        for (Ship ship : row) {
+	            // Check if it's a real ship and not an EmptySea object,
+	            // and if it's sunk.
+	            if (!(ship instanceof EmptySea) && ship.isSunk()) {
+	                sunkCount++;
+	            }
+	        }
+	    }
+	    // Return the number of sunk ships.
+	    return sunkCount;
 	}
 	
 	boolean isGameOver() {
 		
-		return false;
+		return shipsSunk == 10;
 	}
 	
 	/**
@@ -240,7 +284,15 @@ public class Ocean {
 	
 				if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
 					//System.out.println("x");
-					System.out.print(this.ships[i][j]);	
+					if (this.ships[i][j].getShipType().equals("battleship")) {
+						System.out.print("b ");	
+					} else if (this.ships[i][j].getShipType().equals("destroyer")) {
+						System.out.print("d ");
+					} else if (this.ships[i][j].getShipType().equals("cruiser")) {
+						System.out.print("c ");
+					} else if (this.ships[i][j].getShipType().equals("submarine")) {
+						System.out.print("s ");
+					}
 				}
 				else {
 					

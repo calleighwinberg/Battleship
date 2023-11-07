@@ -45,9 +45,9 @@ class OceanTest {
 		
 		assertEquals(9, ships[9][0].getBowRow());
 		assertEquals(0, ships[9][0].getBowColumn());
-	}}
+	}
 	
-	/*@Test
+	@Test
 	void testPlaceAllShipsRandomly() {
 		
 		//tests that the correct number of each ship type is placed in the ocean
@@ -222,5 +222,5 @@ class OceanTest {
 		//More tests
 	}
 
-}*/
+}
 

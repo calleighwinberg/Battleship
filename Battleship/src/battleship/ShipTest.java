@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/*class ShipTest {
+class ShipTest {
 
 	Ocean ocean;
 	Ship ship;
@@ -236,5 +236,5 @@ import org.junit.jupiter.api.Test;
 		//More tests
 	}
 
-}*/
+}
 
