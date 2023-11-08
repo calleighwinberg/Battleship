@@ -22,6 +22,18 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test the length of a cruiser
+		Ship cruiser = new Cruiser();
+		assertEquals(3, cruiser.getLength());
+		
+		//test the length of a destroyer
+		Ship destroyer = new Destroyer();
+		assertEquals(2, destroyer.getLength());
+		
+		//test the length of a submarine
+		Ship submarine = new Submarine();
+		assertEquals(1, submarine.getLength());
 	}
 
 	@Test
@@ -35,6 +47,18 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test  cruiser get BowRow
+		Ship cruiser = new Cruiser();
+		row = 3;
+		column = 1;
+		horizontal = false;
+		cruiser.placeShipAt(row, column, horizontal, ocean);
+		assertEquals(row, cruiser.getBowRow());
+		
+		//test something else? idk what 
+		
+		
 	}
 
 	@Test
@@ -61,7 +85,32 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test the hit array after shooting one spot on the ship
+		int row = 0;
+		int column = 4;
+		boolean horizontal = true;
+		ship.placeShipAt(row, column, horizontal, ocean);
+		ocean.shootAt(0, 4);
+		assertTrue(ship.getHit()[0]);
+		assertFalse(ship.getHit()[3]);
+		
+		//test the hit array of an emptySea ship after it has been shot at 
+		ocean.shootAt(0, 9);
+		assertTrue(ocean.getShipArray()[0][9].getHit()[0]);
+		
+		//test shooting at every remaining space on the battleship 
+		ocean.shootAt(0, 3);
+		ocean.shootAt(0, 2);
+		ocean.shootAt(0, 1);
+		assertTrue(ship.getHit()[1]);
+		assertTrue(ship.getHit()[2]);
+		assertTrue(ship.getHit()[3]);
+		
 	}
+	
+	
+	
 	@Test
 	void testGetShipType() {
 		ship = new Battleship();
@@ -69,6 +118,10 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test cruiser 
+		Ship cruiser = new Cruiser();
+		assertEquals("cruiser", cruiser.getShipType());
 	}
 	
 	@Test
@@ -199,6 +252,62 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test shooting at all locations on the battleship
+		assertTrue(battleship.shootAt(0, 9));
+		hitArray0[0] = true;
+		ocean.shootAt(0, 8);
+		hitArray0[1] = true;
+		ocean.shootAt(0, 7);
+		hitArray0[2] = true;
+		assertArrayEquals(hitArray0, battleship.getHit());
+		
+		ocean.shootAt(0, 6);
+		hitArray0[3] = true;
+		assertArrayEquals(hitArray0, battleship.getHit());
+		
+		
+		
+		//test that shooting at any spot in the battleship is now false since the ship has been sunk 
+		assertFalse(battleship.shootAt(0, 9));
+		assertFalse(battleship.shootAt(0, 8));
+		assertFalse(battleship.shootAt(0, 7));
+		assertFalse(battleship.shootAt(0, 6));
+		
+		
+		
+		//test shooting at an empty space. Because all the shootAt method in the ship class does is return false if the location isn't a part of the 
+		//given class, the hit array for that EmptySea object should still be false
+		assertFalse(battleship.shootAt(3, 9));
+		assertFalse(ocean.getShipArray()[3][9].getHit()[0]);
+		
+		
+		
+		//test a vertical ship of a different type 
+		Ship cruiser = new Cruiser();
+		row = 4;
+		column = 4;
+		horizontal = false;
+		cruiser.placeShipAt(row, column, horizontal, ocean);
+		
+		assertFalse(cruiser.shootAt(9, 0));
+		
+		boolean[] hitArrayC = {false, false, false};
+		assertArrayEquals(hitArrayC, cruiser.getHit());
+		
+		assertTrue(cruiser.shootAt(4, 4));
+		assertTrue(cruiser.shootAt(3, 4));
+		assertTrue(cruiser.shootAt(2, 4));
+		
+		hitArrayC[0] = true;
+		hitArrayC[1] = true;
+		hitArrayC[2] = true;
+		assertArrayEquals(hitArrayC, cruiser.getHit());
+
+		
+		
+		ocean.print();
+		ocean.printWithShips();
 	}
 	
 	@Test
@@ -234,6 +343,8 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		
 	}
 
 }

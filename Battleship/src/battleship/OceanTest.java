@@ -121,6 +121,40 @@ class OceanTest {
 		
 		//TODO
 		//More tests
+		
+		//test 2: every other space in the ocean besides the three places that are occupied by a submarine and destroyer should return false.
+		// the final count of empty spaces should be 100-3
+		int count = 0;
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 10; j++) {
+				if(!(ocean.isOccupied(i, j))) {
+					count++;
+				}
+			}
+		}
+		assertEquals(count, (100-3));
+		
+		//test 3: After i call ocean.placeAllShipsRandomly(), 20 more spots in the ocean should be filled. So the new count would be 100-20-3=77
+		ocean.placeAllShipsRandomly();
+		
+		int count2 = 0;
+		for(int k = 0; k < 10; k++) {
+			for(int l = 0; l < 10; l++) {
+				if(!(ocean.isOccupied(k, l))) {
+					count2++;
+				}
+			}
+		}
+		assertEquals(count2, (100-20-3));
+		
+		//test 4: after calling ocean.placeAllShipsRandomly(), the original submarine in (0,0) should still have no ships surrounding it
+		assertTrue(!(ocean.isOccupied(1, 1)));
+		assertTrue(!(ocean.isOccupied(1, 0)));
+		assertTrue(!(ocean.isOccupied(0, 1)));
+		
+		
+		
+		
 	}
 
 	@Test
@@ -140,6 +174,31 @@ class OceanTest {
 		
 		//TODO
 		//More tests
+		
+		//test 2: Once a ship has been sunk, in this case a submarine, shooting at that location again should return false. 
+		Submarine submarine = new Submarine();
+		row = 0;
+		column = 0;
+		submarine.placeShipAt(row, column, horizontal, ocean);
+		assertTrue(ocean.shootAt(0, 0));
+		assertTrue(submarine.isSunk());
+		assertFalse(ocean.shootAt(0, 0));
+		
+		//test 3: shooting at the same location twice should return true both times, so long as the ship hasn't been sunk yet. 
+		Battleship battleship = new Battleship();
+		row = 4;
+		column = 6;
+		horizontal = true;
+		battleship.placeShipAt(row, column, horizontal, ocean);
+		assertTrue(ocean.shootAt(4, 6));
+		assertTrue(ocean.shootAt(4, 6));
+		
+		//test 4: Test that shootAt successfully updated hitCount and shotsFired. 7 shots have been fired so far. Two shots have been shot at empty 
+		//places. Once at an emptySea and once at the location that the submarine used to be. Therefore, the hit count should only be 5 at this point.
+		assertEquals(ocean.getHitCount(), 5);
+		assertEquals(ocean.getShotsFired(), 7);
+
+		
 	}
 
 	@Test
@@ -172,6 +231,33 @@ class OceanTest {
 		
 		//TODO
 		//More tests
+		
+		//test 2: test that shooting at the same location will increase the shot count
+		Battleship battleship = new Battleship();
+		row = 4;
+		column = 6;
+		horizontal = true;
+		battleship.placeShipAt(row, column, horizontal, ocean);
+		
+		assertTrue(ocean.shootAt(4, 6));
+		assertTrue(ocean.shootAt(4, 5));
+		assertTrue(ocean.shootAt(4, 4));
+		assertTrue(ocean.shootAt(4, 4));
+		assertFalse(battleship.isSunk());
+		assertEquals(10, ocean.getShotsFired());
+		assertTrue(ocean.shootAt(4, 3));
+		
+		ocean.print();
+		//assertTrue(ocean.shootAt(4, 2));
+		//assertTrue(battleship.isSunk());
+		
+		
+		
+		
+		
+		
+		
+		ocean.printWithShips();
 	}
 
 	@Test

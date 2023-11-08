@@ -161,9 +161,17 @@ public class Ocean {
 	}
 	
 	
+	/**
+	 * Returns true if the given location contains a ”real” ship, still afloat, (not an EmptySea), false if it does not. In addition, this method 
+	 * updates the number of shots that have been fired, and the number of hits. If a location contains a “real” ship, shootAt should return true 
+	 * every time the user shoots at that same location. Once a ship has been ”sunk”, additional shots at its location should return false.
+	 * @param row
+	 * @param column
+	 * @return
+	 */
 	boolean shootAt(int row, int column) {
 		
-		shotsFired++;
+		/*shotsFired++;
 		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
 			if (ships[row][column].shootAt(row, column)) {
 				hitCount++;
@@ -174,7 +182,32 @@ public class Ocean {
 			}
 			return true;
 		}
+		return false;*/
+		
+		//System.out.println("Entered1");
+		
+		shotsFired++;
+		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
+			
+			ships[row][column].shootAt(row, column);
+			
+			hitCount++;
+			
+			if (ships[row][column].isSunk()) {
+				shipsSunk++;
+			}
+			return true;
+		}
+		
+		if(!isOccupied(row, column)) {	
+			ships[row][column].getHit()[0] = true;
+		}
+		
 		return false;
+		
+		
+		
+		
 	}
 	
 	
@@ -251,10 +284,46 @@ public class Ocean {
 			System.out.print(i + " ");
 			
 			for(int j=0; j < this.ships[i].length; j++) {
+				
+				
+				/*if(this.ships[i][j].isSunk()) {
+					System.out.print(this.ships[i][j] + " ");
+				}*/ 
+				
+				
+				if(this.ships[i][j].isHorizontal()) {
+					//this if statement searches the hit array for the bow column - j, which returns the correct index of j in the hit array. 
+					if(this.ships[i][j].getHit()[this.ships[i][j].getBowColumn() - j]) {
+						System.out.print(this.ships[i][j] + " ");
+					}
+					else {
+						//if the location hasn't been shot at, print a period indicating you haven't shot at this spot yet
+						System.out.print(". ");
+					}
+				}
+				
+				else {
+					if(this.ships[i][j].getHit()[this.ships[i][j].getBowRow() - i]) {
+						System.out.print(this.ships[i][j] + " ");
+					}
+					else {
+						//if the location hasn't been shot at, print a period indicating you haven't shot at this spot yet
+						System.out.print(". ");
+					}
+				}
+			}
+			System.out.println();
+		}
+	}
+					
+					
 
-				if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
-					System.out.print(this.ships[i][j]);	
-					System.out.println("test");
+				/*if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
+					
+					//String letter = 
+					
+					System.out.print(this.ships[i][j] + " ");	
+					//System.out.println("test");
 				}
 				else {
 					
@@ -262,11 +331,11 @@ public class Ocean {
 					System.out.print(". ");
 					
 				}
-			}
-			System.out.println();		
-		}
+			}*/
+				
+					
 		
-	}
+	
 	
 	
 	/**

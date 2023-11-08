@@ -316,7 +316,33 @@ public abstract class Ship {
 	 */
 	boolean shootAt(int row, int column) {
 		
+			
 		if (!isSunk()) {
+			if (this.horizontal) {
+				if (row == this.getBowRow()) {
+					int hitIndex = this.bowColumn - column; // Index for horizontal
+	                this.hit[hitIndex] = true; 
+	                return true;
+				}
+			}
+			else {
+				if (column == this.getBowColumn()) {
+					int hitIndex = this.bowRow - row; // Index for vertical
+	                this.hit[hitIndex] = true; 
+	                return true;
+				}
+			}
+		}
+
+		return false;
+		
+		
+		
+		
+		
+		//i'm not sure why but this was preventing any other places on the ship from being hit, besides the bow 
+		
+		/*if (!isSunk()) {
 	        if (this.horizontal) {
 	            if (row == this.bowRow && column >= this.bowColumn && column < this.bowColumn + this.length) {
 	                int hitIndex = column - this.bowColumn; // Index for horizontal
@@ -331,7 +357,7 @@ public abstract class Ship {
 	            }
 	        }
 	    }
-	    return false;
+	    return false;*/
 		
 	}
 	
@@ -365,7 +391,7 @@ public abstract class Ship {
 	@Override
 	public String toString() {
 		
-		if (this.isSunk()) {
+		/*if (this.isSunk()) {
 			return "s";
 		} else {
 			for (boolean partHit : hit) {
@@ -374,7 +400,21 @@ public abstract class Ship {
 				}
 			}
 		}
-		return "x";
+		return "x";*/
+		
+		
+		
+		
+		
+		if (this.isSunk()) {
+			return "s";
+			
+		} else {
+			return "x";
+		}
+		
+
+		
 	}
 
 }
