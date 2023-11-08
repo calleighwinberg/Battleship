@@ -36,7 +36,8 @@ public abstract class Ship {
 	//getters and setters
 	
 	/**
-	 * @return the bowRow corresponding to the position of the bow
+	 * Gets the row corresponding to the position of the bow.
+	 * @return the bowRow
 	 */
 	public int getBowRow() {
 		return bowRow;
@@ -45,6 +46,7 @@ public abstract class Ship {
 
 
 	/**
+	 * Sets the value of bowRow
 	 * @param bowRow the bowRow to set
 	 */
 	public void setBowRow(int bowRow) {
@@ -54,6 +56,7 @@ public abstract class Ship {
 
 
 	/**
+	 * Returns the bow column location.
 	 * @return the bowColomn location
 	 */
 	public int getBowColumn() {
@@ -63,6 +66,7 @@ public abstract class Ship {
 
 
 	/**
+	 * Sets the value of bowColumn.
 	 * @param bowColomn the bowColomn to set
 	 */
 	public void setBowColumn(int bowColumn) {
@@ -72,7 +76,8 @@ public abstract class Ship {
 
 
 	/**
-	 * @return the horizontal
+	 * Returns whether the ship is horizontal or not.
+	 * @return boolean
 	 */
 	public boolean isHorizontal() {
 		return horizontal;
@@ -81,6 +86,7 @@ public abstract class Ship {
 
 
 	/**
+	 * Sets the value of the instance variable horizontal.
 	 * @param horizontal the horizontal to set
 	 */
 	public void setHorizontal(boolean horizontal) {
@@ -90,6 +96,7 @@ public abstract class Ship {
 
 
 	/**
+	 * Returns the ship length.
 	 * @return the length
 	 */
 	public int getLength() {
@@ -99,7 +106,8 @@ public abstract class Ship {
 
 
 	/**
-	 * @return the hit
+	 * Returns the hit array.
+	 * @return the hit array.
 	 */
 	public boolean[] getHit() {
 		return hit;
@@ -121,11 +129,11 @@ public abstract class Ship {
 	 * this location; false otherwise. The ship must not overlap another ship, or touch another ship (vertically, horizontally, 
 	 * or diagonally), and it must not ”stick out” beyond the array. Does not actually change either the ship or the Ocean - 
 	 * it just says if it is legal to do so.
-	 * @param row
-	 * @param column
-	 * @param horizontal
+	 * @param row of ship bow
+	 * @param column of ship bow
+	 * @param horizontal true if horizontal; false if vertical
 	 * @param ocean
-	 * @return
+	 * @return boolean
 	 */
 	boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		// Check if the ship can be placed on the board given orientation and row/column
@@ -141,7 +149,8 @@ public abstract class Ship {
 		
 		
 		for (int i = 0; i < length; i++) {
-	        int currentRow = horizontal ? row : row - i;
+	        //use ternary conditional operator '?' for condensed if/else statement
+			int currentRow = horizontal ? row : row - i;
 	        int currentColumn = horizontal ? column - i : column;
 
 	        // Check if the current position is within bounds
@@ -247,9 +256,9 @@ public abstract class Ship {
 	 * the ship, and it also involves putting a reference to the ship in each of 1 or more locations (up to 4) in the ships array 
 	 * in the Ocean object. (Note: This will be as many as four identical references; you can’t refer to a ”part” of a ship, only
 	 *  to the whole ship.)
-	 * @param row
-	 * @param column
-	 * @param horizontal
+	 * @param row of ship bow
+	 * @param column of ship bow
+	 * @param horizontal true if horizontal; false if vertical
 	 * @param ocean
 	 */
 	void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
@@ -260,7 +269,7 @@ public abstract class Ship {
 		
 		//System.out.print(ocean.getShipArray()[row][column] = this);
 		
-		
+		//store array of ships
 		Ship[][] ships = ocean.getShipArray();
 
         // Place a reference to the ship in the ships array at each location the ship occupies.
@@ -310,25 +319,29 @@ public abstract class Ship {
 	/**
 	 * If a part of the ship occupies the given row and column, and the ship hasn’t been sunk, mark that part of the ship as “hit”
 	 *  (in the hit array, index 0 indicates the bow) and return true; otherwise return false.
-	 * @param row
-	 * @param column
-	 * @return
+	 * @param row of shot location
+	 * @param column of shot location
+	 * @return boolean
 	 */
 	boolean shootAt(int row, int column) {
 		
-			
+		//ensure ship is not already sunk	
 		if (!isSunk()) {
+			//check ship orientation for horizontal-true
 			if (this.horizontal) {
+				//ensure shot is on correct row of ship
 				if (row == this.getBowRow()) {
 					int hitIndex = this.bowColumn - column; // Index for horizontal
-	                this.hit[hitIndex] = true; 
+	                this.hit[hitIndex] = true; //update the hit array
 	                return true;
 				}
 			}
+			//ship orientation is vertical
 			else {
+				//ensure shot is on correct column of ship
 				if (column == this.getBowColumn()) {
 					int hitIndex = this.bowRow - row; // Index for vertical
-	                this.hit[hitIndex] = true; 
+	                this.hit[hitIndex] = true; //update the hit array
 	                return true;
 				}
 			}
@@ -365,11 +378,13 @@ public abstract class Ship {
 	
 	/**
 	 * Return true if every part of the ship has been hit, false otherwise
-	 * @return
+	 * @return boolean
 	 */
 	boolean isSunk() {
 		
+		//iterate over hit array
 		for (boolean partHit : hit) {
+			//check if any index not true
 			if(!partHit) {
 				return false;
 			}

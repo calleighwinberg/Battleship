@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Ocean {
 	
+	//instance variables
 	private Ship[][]ships = new Ship[10][10];
 	
 	private int shotsFired;
@@ -45,7 +46,7 @@ public class Ocean {
 	
 	/**
 	 *  **private helper method** creates a new empty sea object so the ships array can be filled with emptySea objects 
-	 * @return
+	 * @return newEmptySea
 	 */
 	private EmptySea newEmptySeaObj() {
 		EmptySea newEmptySea = new EmptySea();
@@ -67,6 +68,7 @@ public class Ocean {
 	 */
 	void placeAllShipsRandomly() {
 		
+		//create the fleet of ships
 		Random random = new Random();
 		
 		Battleship battleship1 = new Battleship();
@@ -83,21 +85,25 @@ public class Ocean {
 		Submarine submarine3 = new Submarine();
 		Submarine submarine4 = new Submarine();
 		
+		//store the fleet of ships in an array in descending order of size
 		Ship[] shipsToPlace = {battleship1, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, 
 				submarine1, submarine2, submarine3, submarine4};
-		
+		  
+		  //iterate of the shipsToPlace array
 		  for (Ship ship : shipsToPlace) {
-		        boolean placed = false;
+		        boolean placed = false; //set flag to false until given ship is placed
 		        
+		        //enter while loop for each ship placement
 		        while (!placed) {
-		            int row = random.nextInt(10);
+		            //generate random integers for row and column of ships placement (bow) and random boolean for orientation
+		        	int row = random.nextInt(10);
 		            int column = random.nextInt(10);
 		            boolean horizontal = random.nextBoolean();
 		            
-		            
+		            //check if the ship can be placed given random ints and orientation above
 		            if (ship.okToPlaceShipAt(row, column, horizontal, this)) {
-		                ship.placeShipAt(row, column, horizontal, this);
-		                placed = true;
+		                ship.placeShipAt(row, column, horizontal, this); //if okay, place the ship at given location
+		                placed = true;//set flag to true and repeat until all ships are placed
 		            }
 		        }
 		        
@@ -146,7 +152,7 @@ public class Ocean {
 	 * Returns true if the given location contains a ship, false if it does not
 	 * @param row
 	 * @param column
-	 * @return
+	 * @return boolean
 	 */
 	boolean isOccupied(int row, int column) {
 		
@@ -167,7 +173,7 @@ public class Ocean {
 	 * every time the user shoots at that same location. Once a ship has been ”sunk”, additional shots at its location should return false.
 	 * @param row
 	 * @param column
-	 * @return
+	 * @return boolean
 	 */
 	boolean shootAt(int row, int column) {
 		
@@ -186,13 +192,18 @@ public class Ocean {
 		
 		//System.out.println("Entered1");
 		
+		//increment shotsFired
 		shotsFired++;
+		//check if given row & column has a ship and the ship is not sunk
 		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
 			
+			//call the shootAt method to record the hit
 			ships[row][column].shootAt(row, column);
 			
+			//increment the successful hit in hitCount
 			hitCount++;
 			
+			//check if given hit sunk the ship; if so, increment shipsSunk
 			if (ships[row][column].isSunk()) {
 				shipsSunk++;
 			}
@@ -213,23 +224,35 @@ public class Ocean {
 	
 	//getter methods 
 	
-	
+	/**
+	 * Get the number of shots fired.
+	 * @return shots fired
+	 */
 	int getShotsFired() {
 		
 		return this.shotsFired;
 	}
 	
-	
+	/**
+	 * Get the current hit count.
+	 * @return hit count
+	 */
 	int getHitCount() {
 		
 		return this.hitCount;
 	}
 	
-	
+	/**
+	 * Get the number of ships sunk.
+	 * @return sunk ships count
+	 */
 	int getShipsSunk() {
 		
+		//initialize sunkCount
 		int sunkCount = 0;
-	    for (Ship[] row : ships) {
+	    
+		//iterate of array of ships
+		for (Ship[] row : ships) {
 	        for (Ship ship : row) {
 	            // Check if it's a real ship and not an EmptySea object,
 	            // and if it's sunk.
@@ -242,6 +265,10 @@ public class Ocean {
 	    return sunkCount;
 	}
 	
+	/**
+	 * Returns true when all the ships are sunk, otherwise false.
+	 * @return boolean
+	 */
 	boolean isGameOver() {
 		
 		return shipsSunk == 10;
@@ -253,7 +280,7 @@ public class Ocean {
 	placeShipAt() method even needs to modify it. While it is undesirable to
 	allow methods in one class to directly access instance variables in another class,
 	sometimes there is just no good alternative.
-	 * @return
+	 * @return array of Ships
 	 */
 	Ship[][] getShipArray() {
 		
