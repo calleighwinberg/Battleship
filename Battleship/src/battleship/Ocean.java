@@ -2,15 +2,31 @@ package battleship;
 
 import java.util.Random;
 
+/**
+ * Represents an 'ocean' containing a 10x10 array of ships and various methods.
+ */
 public class Ocean {
 	
 	//instance variables
+	
+	/**
+	 * Represents a 10x10 array of Ships.
+	 */
 	private Ship[][]ships = new Ship[10][10];
 	
+	/**
+	 * Represents the number of shots fired during the game.
+	 */
 	private int shotsFired;
 	
+	/**
+	 * Represents the number of hits landed on ships during the game.
+	 */
 	private int hitCount;
 	
+	/**
+	 * Represents the number of ships sunk during the game.
+	 */
 	private int shipsSunk;
 	
 	
@@ -68,9 +84,10 @@ public class Ocean {
 	 */
 	void placeAllShipsRandomly() {
 		
-		//create the fleet of ships
+		//Initialize a new random variable
 		Random random = new Random();
 		
+		//create the fleet of ships
 		Battleship battleship1 = new Battleship();
 		
 		Cruiser cruiser1 = new Cruiser();
@@ -366,7 +383,7 @@ public class Ocean {
 	
 	
 	/**
-	 * USED FOR DEBUGGING PURPOSES ONLY.
+	 * USED FOR DEBUGGING PURPOSES ONLY. Similar to the print method above, but displays the ships' locations on the console.
 	 */
 	void printWithShips() {
 		

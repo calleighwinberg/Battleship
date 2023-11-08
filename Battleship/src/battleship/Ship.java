@@ -6,14 +6,30 @@ package battleship;
 public abstract class Ship {
 	
 	//instance variables 
+	
+	/**
+	 * Represents the row position of the ship's bow.
+	 */
 	private int bowRow;
 	
+	/**
+	 * Represents the column position of the ship's bow.
+	 */
 	private int bowColumn;
 	
+	/**
+	 * Represents the length of the ship.
+	 */
 	private int length;
 	
+	/**
+	 * Represents the ship's orientation. true = horizontal, false = vertical
+	 */
 	private boolean horizontal;
 	
+	/**
+	 * Represents an array of booleans for hits on parts of a ship.
+	 */
 	private boolean[] hit;
 	
 	
@@ -263,6 +279,7 @@ public abstract class Ship {
 	 */
 	void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		
+		//set the row and column for ship's bow and ship's orientation.
 		this.setBowRow(row);
 		this.setBowColumn(column);
 		this.setHorizontal(horizontal);

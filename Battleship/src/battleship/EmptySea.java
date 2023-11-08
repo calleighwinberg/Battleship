@@ -1,10 +1,18 @@
 package battleship;
 
+/**
+ * Represents the EmptySea subclass of Ship.
+ */
 public class EmptySea extends Ship {
 	
 	//instance variables
+	
+	/**
+	 * The hard-coded length of an EmptySea.
+	 */
 	static final int length = 1;
     
+	//constructor
 	/**
 	 * Creates an instance of an EmptySea with length 1 by calling constructor in Ship class.
 	 */
@@ -12,6 +20,7 @@ public class EmptySea extends Ship {
 		super(length);
 
 	}
+	
 	/**
 	 * Overrides shootAt method in Ship class. Always returns false to indicate nothing was hit.
 	 */

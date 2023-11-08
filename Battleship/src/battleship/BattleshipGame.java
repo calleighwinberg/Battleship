@@ -1,5 +1,8 @@
 package battleship;
 
+/**
+ * Represents the class running a game of Battleship. Contains the main method.
+ */
 public class BattleshipGame {
 
 	public static void main(String[] args) {

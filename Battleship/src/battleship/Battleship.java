@@ -1,10 +1,19 @@
 package battleship;
 
+/**
+ * Represents the battleship subclass of Ship.
+ */
 public class Battleship extends Ship {
 	
 	//instance variables
+	/**
+	 * The hard-coded length of the battleship.
+	 */
 	static final int length = 4;
 	
+	/**
+	 * The hard-coded type of the battleship.
+	 */
 	static final String type = "battleship";
 	
 	//constructor
