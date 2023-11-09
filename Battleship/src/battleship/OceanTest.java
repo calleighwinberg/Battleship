@@ -246,18 +246,19 @@ class OceanTest {
 		assertFalse(battleship.isSunk());
 		assertEquals(10, ocean.getShotsFired());
 		assertTrue(ocean.shootAt(4, 3));
+		assertEquals(11, ocean.getShotsFired());
+
 		
-		ocean.print();
-		//assertTrue(ocean.shootAt(4, 2));
-		//assertTrue(battleship.isSunk());
+		//test 3: test that only calling the shootAt in the ocean class will increase the shot count, not calling the shootAt method in ship class
+		//the below will return false because the battleship has already been sunk 
+		assertFalse(battleship.shootAt(row, column));
+		assertEquals(11, ocean.getShotsFired());
+		assertFalse(ocean.shootAt(row, column));
+		assertEquals(12, ocean.getShotsFired());
+
 		
-		
-		
-		
-		
-		
-		
-		ocean.printWithShips();
+		//ocean.printWithShips();
+		//ocean.print();
 	}
 
 	@Test
