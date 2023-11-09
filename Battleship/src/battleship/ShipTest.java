@@ -189,6 +189,32 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test 2: test that you cannot place a ship where part of the ship will not be within the bounds of the ocean
+		Ship destroyer = new Destroyer();
+		row = 0;
+		column = 0;
+		horizontal = true;
+		ok = destroyer.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertFalse(ok);
+		
+		
+		//test 3: test that a ship cannot be placed at indexes that don't exist in the constraints of the ocean.
+		Ship submarine = new Submarine();
+		row = 11;
+		column = 12;
+		ok = submarine.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertFalse(ok);
+		
+		//test 4: test that a ship can be placed in a corner 
+		Ship cruiser = new Cruiser();
+		row = 9;
+		column = 9;
+		horizontal = false;
+		ok = cruiser.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertTrue(ok);
+
+		
 	}
 	
 	@Test
@@ -215,6 +241,41 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		
+		//test 2: test that you cannot place a ship in a space where it overlaps with another ship
+		Ship cruiser = new Cruiser();
+		row = 2;
+		column = 3;
+		horizontal = false;
+		boolean ok3 = cruiser.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertFalse(ok3);
+		
+		
+		//test 3: test that you cannot place a ship diagonal to another ship. In this case, trying to place the destroyer diagonal from 
+		//the battleship will not be allowed  
+		Ship destroyer = new Destroyer();
+		row = 1;
+		column = 6;
+		horizontal = true;
+		boolean ok4 = destroyer.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertFalse(ok4);
+		
+		//however if I move the column over one space, then the destroyer can be placed
+		column = 7;
+		ok4 = destroyer.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertTrue(ok4);	
+
+		
+		//test 3: test that a ship cannot be placed directly at the front of the battleship
+		Ship submarine = new Submarine();
+		row = 0;
+		column = 5;
+		boolean ok5 = submarine.okToPlaceShipAt(row, column, horizontal, ocean);
+		assertFalse(ok5);
+
+		
+		
+		
 	}
 
 	@Test
@@ -235,6 +296,32 @@ class ShipTest {
 
 		//TODO
 		//More tests
+		
+		//test 2: test placing a ship vertically. Test every location that the ship should occupy 
+		Ship cruiser = new Cruiser();
+		row = 4;
+		column = 3;
+		horizontal = false;
+		cruiser.placeShipAt(row, column, horizontal, ocean);
+		assertEquals(cruiser, ocean.getShipArray()[4][3]);
+		assertEquals(cruiser, ocean.getShipArray()[3][3]);
+		assertEquals(cruiser, ocean.getShipArray()[2][3]);
+		
+		//test 3: test that you're able to override the location of a ship with a new ship. Although this would never happen in the game and
+		//be caught by okToPlaceShip, I want to ensure that this method can override another ship type besides EmptySea
+		Ship destroyer = new Destroyer();
+		row = 4;
+		column = 3;
+		horizontal = false;
+		destroyer.placeShipAt(row, column, horizontal, ocean);
+		
+		//now, the two locations should be a destroyer and one location should be a cruiser 
+		assertEquals(destroyer, ocean.getShipArray()[4][3]);
+		assertEquals(destroyer, ocean.getShipArray()[3][3]);
+		assertEquals(cruiser, ocean.getShipArray()[2][3]);
+		
+		
+	
 	}
 
 	@Test
@@ -253,7 +340,7 @@ class ShipTest {
 		//TODO
 		//More tests
 		
-		//test shooting at all locations on the battleship
+		//test 2: test shooting at all locations on the battleship
 		assertTrue(battleship.shootAt(0, 9));
 		hitArray0[0] = true;
 		ocean.shootAt(0, 8);
@@ -266,9 +353,7 @@ class ShipTest {
 		hitArray0[3] = true;
 		assertArrayEquals(hitArray0, battleship.getHit());
 		
-		
-		
-		//test that shooting at any spot in the battleship is now false since the ship has been sunk 
+		//now test that shooting at any spot in the battleship is now false since the ship has been sunk 
 		assertFalse(battleship.shootAt(0, 9));
 		assertFalse(battleship.shootAt(0, 8));
 		assertFalse(battleship.shootAt(0, 7));
@@ -276,14 +361,14 @@ class ShipTest {
 		
 		
 		
-		//test shooting at an empty space. Because all the shootAt method in the ship class does is return false if the location isn't a part of the 
-		//given class, the hit array for that EmptySea object should still be false
+		//test 3: test shooting at an empty space. Because all the shootAt method in the ship class does is return false if the location 
+		//isn't a part of the given class, the hit array for that EmptySea object should still be false
 		assertFalse(battleship.shootAt(3, 9));
 		assertFalse(ocean.getShipArray()[3][9].getHit()[0]);
 		
 		
 		
-		//test a vertical ship of a different type 
+		//test 4: test a vertical ship of a different type 
 		Ship cruiser = new Cruiser();
 		row = 4;
 		column = 4;
@@ -303,11 +388,13 @@ class ShipTest {
 		hitArrayC[1] = true;
 		hitArrayC[2] = true;
 		assertArrayEquals(hitArrayC, cruiser.getHit());
-
 		
 		
-		ocean.print();
+		
+		//ocean.print();
 		ocean.printWithShips();
+
+
 	}
 	
 	@Test
