@@ -265,6 +265,10 @@ public class Ocean {
 	 */
 	int getShipsSunk() {
 		
+		return shipsSunk;
+	}
+		
+		/*
 		//initialize sunkCount
 		int sunkCount = 0;
 	    
@@ -280,7 +284,7 @@ public class Ocean {
 	    }
 	    // Return the number of sunk ships.
 	    return sunkCount;
-	}
+	}*/
 	
 	/**
 	 * Returns true when all the ships are sunk, otherwise false.
