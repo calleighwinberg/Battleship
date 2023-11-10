@@ -126,43 +126,6 @@ public class Ocean {
 		        
 		    }
 		
-		/*
-		//ArrayList<Ship> ships = new ArrayList<Ship>();
-		
-		Ship[] myShips = {battleship1};
-		
-		Random random = new Random();
-		
-		//iterate through the array of ships
-		for(int i=0; i < myShips.length; i++) {
-			
-			Ship ship = myShips[i];
-			
-			System.out.println("What is length in ocean:" + ship.getLength());
-			
-			while(true) { 
-				
-				int randomRow = random.nextInt(10);
-				
-				int randomCol = random.nextInt(10);
-				
-				boolean horizontal = random.nextBoolean();
-				
-				if (ship.okToPlaceShipAt(randomRow, randomCol, horizontal, this)) {	
-					
-					ship.placeShipAt(randomRow, randomCol, horizontal, this);
-								
-					System.out.println("Success!" + randomRow + randomCol + horizontal);
-					
-					break;
-				}
-				
-			}
-			
-		}
-		
-		*/		
-		
 	}
 	
 	/**
@@ -175,12 +138,6 @@ public class Ocean {
 		
 		return !(ships[row][column] instanceof EmptySea);
 		
-		/*
-		if(this.ships[row][column] instanceof EmptySea) {
-			return false;
-		}
-		return true; 
-		*/
 	}
 	
 	
@@ -194,22 +151,6 @@ public class Ocean {
 	 */
 	boolean shootAt(int row, int column) {
 		
-		/*shotsFired++;
-		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
-			if (ships[row][column].shootAt(row, column)) {
-				hitCount++;
-				if (ships[row][column].isSunk()) {
-					shipsSunk++;
-				}
-				
-			}
-			return true;
-		}
-		return false;*/
-		
-		//System.out.println("Entered1");
-		
-		//increment shotsFired
 		shotsFired++;
 		//check if given row & column has a ship and the ship is not sunk
 		if (isOccupied(row, column) && !ships[row][column].isSunk()) {
@@ -226,7 +167,7 @@ public class Ocean {
 			}
 			return true;
 		}
-		
+		//if you hit EmptySea object, sets hit array to true
 		if(!isOccupied(row, column)) {	
 			ships[row][column].getHit()[0] = true;
 		}
@@ -268,23 +209,6 @@ public class Ocean {
 		return shipsSunk;
 	}
 		
-		/*
-		//initialize sunkCount
-		int sunkCount = 0;
-	    
-		//iterate of array of ships
-		for (Ship[] row : ships) {
-	        for (Ship ship : row) {
-	            // Check if it's a real ship and not an EmptySea object,
-	            // and if it's sunk.
-	            if (!(ship instanceof EmptySea) && ship.isSunk()) {
-	                sunkCount++;
-	            }
-	        }
-	    }
-	    // Return the number of sunk ships.
-	    return sunkCount;
-	}*/
 	
 	/**
 	 * Returns true when all the ships are sunk, otherwise false.
@@ -364,27 +288,6 @@ public class Ocean {
 		}
 	}
 					
-					
-
-				/*if(!(this.ships[i][j] instanceof EmptySea)) { //if this location has been shot at, print the string for that ship extension type 
-					
-					//String letter = 
-					
-					System.out.print(this.ships[i][j] + " ");	
-					//System.out.println("test");
-				}
-				else {
-					
-					//if the location hasn't been shot at, print a period indicating you haven't shot at this spot yet
-					System.out.print(". ");
-					
-				}
-			}*/
-				
-					
-		
-	
-	
 	
 	/**
 	 * USED FOR DEBUGGING PURPOSES ONLY. Similar to the print method above, but displays the ships' locations on the console.

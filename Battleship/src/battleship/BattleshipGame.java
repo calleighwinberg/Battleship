@@ -32,10 +32,62 @@ public class BattleshipGame {
 	private void takeTurn() {
 		
 		//prompt player for input
-		//need to update for valid inputs, etc.
-		System.out.println("Enter row, column: ");
-		int row = scanner.nextInt();
-		int column = scanner.nextInt();
+		int row;
+		int column;
+		System.out.println("Enter row: ");
+		
+		//enter while loop to ensure valid user input for row
+		while (true) {
+			//take user input as string
+			String s = scanner.next();
+			//try to cast string to integer and ensure integer is between 0 and 9 (inclusive)
+			try {
+				int x = Integer.parseInt(s);
+				if (x >=0 && x <= 9) {
+					row = x;
+					break; //break out of while loop if valid integer input
+				}
+				//friendly message to user if integer is not between 0 and 9
+				System.out.println("Please enter a number between 0 and 9!");
+				System.out.println("Enter row: ");
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				//friendly message to user to input valid integer - stay in while loop
+				System.out.println("Please enter a valid integer!");
+				System.out.println("Enter row: ");
+				
+			}
+				
+		}
+		//prompt player for input
+		System.out.println("Enter column: ");
+		
+		//enter while loop to ensure valid user input for row
+		while (true) {
+			//take user input as string
+			String t = scanner.next();
+			//try to cast string to integer and ensure integer is between 0 and 9 (inclusive)
+			try {
+				int y = Integer.parseInt(t);
+				if (y >=0 && y <= 9) {
+					column = y;
+					break; //break out of while loop if valid integer input
+				}
+				//friendly message to user if integer is not between 0 and 9
+				System.out.println("Please enter a number between 0 and 9!");
+				System.out.println("Enter column: ");
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				//friendly message to user to input valid integer - stay in while loop
+				System.out.println("Please enter a valid integer!");
+				System.out.println("Enter column: ");
+				
+			}
+			
+		}
+			
 		boolean hit = ocean.shootAt(row, column);
 		
 		//if the player hits a ship, inform the player and check if the ship is now sunk
@@ -68,8 +120,10 @@ public class BattleshipGame {
 		setupGame();
 		//print friendly message to the player
 		System.out.println("Welcome to Battleship!");
+		System.out.println("Your objective is to sink all 10 ships in the fleet with the least number of shots.");
 		System.out.println("");
-		ocean.printWithShips(); //remove before submission
+		ocean.print();
+		//ocean.printWithShips(); --PRINTS THE SHIPS ON THE GRID--
 		
 		//enter loop until all ships are sunk
 		while (!ocean.isGameOver()) {
@@ -82,40 +136,10 @@ public class BattleshipGame {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		BattleshipGame game = new BattleshipGame();
 		
 		game.playGame();
-		
-		/*
-		Ocean oceanTest = new Ocean(); 
-		
-		
-		
-		//oceanTest.placeAllShipsRandomly();
-		Ship ship = new Battleship();
-		ship.placeShipAt(1, 6, true, oceanTest);
-		
-		oceanTest.print();
-		
-		System.out.println();
-		
-		oceanTest.printWithShips();
-		
-		//oceanTest.shootAt(0, 9);
-		//System.out.println(oceanTest.getShipArray()[0][9].getHit()[0]);
-		
-		oceanTest.shootAt(1, 6);
-		oceanTest.shootAt(1, 5);
-		oceanTest.shootAt(1, 4);
-		oceanTest.shootAt(1, 3);
-		oceanTest.shootAt(0, 9);
-		oceanTest.print();
-		*/
-		
-
-		
 		
 
 	}
